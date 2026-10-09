@@ -47,8 +47,9 @@ On Windows: `powershell -File tools\package.ps1`.
    from ReviOS/AtlasOS must not bring their identity fields along.
 3. **Do not invent action names or conf fields.** Only what `docs/` cites. If
    something is not documented, mark it unknown and prove it in a VM.
-   `validate.py` rejects unknown action tags; extend its table only from a doc page.
-4. **Use `!status`**, not `!writeStatus`. Single-quote strings and registry paths.
+   `validate.py` rejects unknown action tags; extend its table only from a doc page
+   or a usage proven in a shipped playbook (see `docs/research/format-gaps.md`).
+4. **Use `!status`** (`!writeStatus` also works; Atlas and ReviOS use it). Single-quote strings and registry paths.
    Forward slashes in `!task` paths. `errorAction` instead of `ignoreErrors`.
    `!cmd` and `!powerShell` default to `wait: false`; set `wait: true` when order matters.
 5. **Every change must be reversible or opt-in.** Destructive removals
@@ -76,7 +77,8 @@ On Windows: `powershell -File tools\package.ps1`.
 - **Phase 2 — done.** Loadable skeleton: `main.yml` writes one status, no changes.
   Remaining check: load `dist/*.apbx` in AME Wizard in a VM and confirm it is
   accepted with no conf/YAML errors.
-- **Phase 3 — design.** Study the public AtlasOS (`Atlas-OS/Atlas`) and ReviOS
+- **Phase 3 — design.** Research done 2026-10-09: `docs/research/` (start with
+  its README, which holds the proposed design and open decisions). Study the public AtlasOS (`Atlas-OS/Atlas`) and ReviOS
   (`meetrevision/playbook`) sources. Decide: target builds (23H2 22631, 24H2
   26100, 25H2 26200), Requirements, feature pages, ISO yes/no, and the stance on
   Windows Update, Defender, Store, Edge, OneDrive, Copilot/Recall, UCPD.

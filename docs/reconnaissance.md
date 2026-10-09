@@ -686,7 +686,7 @@ without noting it.
 
 | Topic | Conflict | Standing choice for this HQ |
 |-------|----------|-----------------------------|
-| Status action tag | creating_playbooks.html `main.yml` example uses `!writeStatus`. Action page title, actions index, features-in-yaml, and older writing-yaml.html use `!status`. Creating Playbooks' bullet list uses the class name `WriteStatus`. | Use **`!status`**. Treat `!writeStatus` as an unconfirmed alias / class-name leak. Confirm in a VM before relying on `!writeStatus`. |
+| Status action tag | creating_playbooks.html `main.yml` example uses `!writeStatus`. Action page title, actions index, features-in-yaml, and older writing-yaml.html use `!status`. Creating Playbooks' bullet list uses the class name `WriteStatus`. | Both are accepted: Atlas and ReviOS releases use `!writeStatus` 30+ times (docs/research/format-gaps.md). We standardize on **`!status`**. |
 | Version format | Not a real conflict: configuration.html allows one to three dot-separated numbers, and `1.2.16` is three. | Start at `0.1`; any `x.y.z` is fine. Git release tag must match. |
 | `cpuArch` case | yaml.html example: `cpuArch: "x64"`. actions.html: must match .NET Architecture, example `"X64"`. | Prefer **`X64`** (enum). Unknown whether lowercase is accepted. |
 | `!software` source case | Enum listed as `Chocolatey`; example uses `chocolatey`. | Copy the example (`chocolatey`) and keep an eye on parse errors. |

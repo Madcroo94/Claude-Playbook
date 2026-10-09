@@ -355,7 +355,7 @@ Writes a short status on top of the progress bar.
 Source: https://docs.amelabs.net/developers/actions/WriteStatus.html
 
 Page title is `!status`. creating_playbooks.html's `main.yml` example uses
-`!writeStatus`. Use **`!status`**. Keep messages short.
+`!writeStatus`. Both work: Atlas 0.5 and ReviOS 26.04 ship `!writeStatus` dozens of times. We use **`!status`**. Keep messages short.
 
 Does **not** support `weight`.
 
