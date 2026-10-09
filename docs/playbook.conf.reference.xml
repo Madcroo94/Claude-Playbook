@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  playbook.conf REFERENCE — annotated with every known field.
+  Fetched: 2026-10-08
+
+  Primary table: https://docs.amelabs.net/developers/configuration.html
+  Also: iso.html (SupportsISO, OOBE, ISO, Software),
+        upgrades.html (UpgradableFrom, AllowUnsupportedUpgrades),
+        features/pages.html and page-type pages (FeaturePages).
+
+  Fields marked REQUIRED must be present (configuration.html required table).
+  Fields marked OPTIONAL can be omitted.
+  Fields marked OTHER-PAGE are documented on iso.html or upgrades.html, not
+  on the configuration.html optional table.
+
+  IMPORTANT: Replace YOUR_UNIQUE_ID_HERE with a freshly generated UUIDv4.
+  Generator: https://tools.namlabs.com/uuidV4/
+-->
+<Playbook>
+
+  <!-- ===== REQUIRED FIELDS ===== -->
+
+  <!-- Short name for the playbook. Shown in various UI locations. -->
+  <Name>Example Playbook</Name>
+
+  <!-- Creator username. Displayed in the AME Wizard sidebar and header. -->
+  <Username>YourHandle</Username>
+
+  <!-- REQUIRED: A unique UUIDv4. Generate fresh — never copy from another playbook. -->
+  <UniqueId>YOUR_UNIQUE_ID_HERE</UniqueId>
+
+  <!-- Short description. Shown in the Playbooks sidebar. Keep it concise. -->
+  <ShortDescription>Official example playbook for Windows 11</ShortDescription>
+
+  <!-- Title used on the primary wizard pages. -->
+  <Title>Windows 11 Example Playbook</Title>
+
+  <!--
+    First introductory page description.
+    Use &#xD;&#xA; for newlines in the XML.
+  -->
+  <Description>This Playbook will configure your Windows installation.&#xD;&#xA;&#xD;&#xA;It applies privacy, performance, and UI changes.</Description>
+
+  <!-- Used in the updates window description box. -->
+  <Details>Official example playbook for Windows 11. Applies privacy, debloat, and UI tweaks.</Details>
+
+  <!--
+    Version. One to three dot-separated numbers: "1", "0.1", "0.0.1", "1.2.16".
+    Git release Tag must match this value.
+  -->
+  <Version>0.1</Version>
+
+  <!-- ===== OPTIONAL FIELDS ===== -->
+
+  <!--
+    OPTIONAL: Restrict which Windows builds can use this playbook.
+    Use build numbers (e.g. 22621 = Win11 22H2, 22000 = Win11 21H2).
+    Omit to support all builds.
+  -->
+  <SupportedBuilds>
+    <string>22000</string>
+    <string>22621</string>
+    <string>22631</string>
+    <!-- 24H2 / 25H2: add after VM testing -->
+    <!-- <string>26100</string> -->
+    <!-- <string>26200</string> -->
+  </SupportedBuilds>
+
+  <!--
+    OPTIONAL: Requirements that must be met before the playbook can run.
+    See reconnaissance.md §4 for full list of requirement values.
+  -->
+  <Requirements>
+    <Requirement>Internet</Requirement>
+    <Requirement>NoPendingUpdates</Requirement>
+    <Requirement>DefenderDisabled</Requirement>
+    <Requirement>NoAntivirus</Requirement>
+    <!-- <Requirement>FreshInstall</Requirement> -->
+    <!-- <Requirement>PasswordSet</Requirement> -->
+  </Requirements>
+
+  <!--
+    OPTIONAL: Feature pages shown in the wizard before the playbook runs.
+    See reconnaissance.md §8.
+    Types: CheckboxPage, RadioPage, RadioImagePage.
+    Description length should be 50–85 characters.
+    DependsOn = Name of an option on a previous page.
+    IsRequired="true" blocks Next until the user selects.
+    CheckboxOption IsChecked default is true if omitted.
+    RadioPage / RadioImagePage use DefaultOption matching an option Name.
+    RadioImageOption FileName points at Images/<name>.png (128px height).
+  -->
+  <FeaturePages>
+    <CheckboxPage Description="Select which features you would like to include or exclude.">
+      <TopLine Text="Privacy and Debloat"/>
+      <Options>
+        <CheckboxOption IsChecked="true">
+          <Text>Remove telemetry services</Text>
+          <Name>remove-telemetry</Name>
+        </CheckboxOption>
+        <CheckboxOption IsChecked="false">
+          <Text>Remove Defender</Text>
+          <Name>remove-defender</Name>
+        </CheckboxOption>
+      </Options>
+    </CheckboxPage>
+    <!--
+    <RadioPage DefaultOption="choice-1" Description="Please a select a choice. This is important.">
+      <Options>
+        <RadioOption>
+          <Text>Choice 1 (recommended)</Text>
+          <Name>choice-1</Name>
+        </RadioOption>
+        <RadioOption>
+          <Text>Choice 2</Text>
+          <Name>choice-2</Name>
+        </RadioOption>
+      </Options>
+    </RadioPage>
+    <RadioImagePage CheckDefaultBrowser="true" DependsOn="software" DefaultOption="browser-firefox"
+                    Description="Please select a preferred browser. We can only provide a curated experience for some options.">
+      <TopLine Text="We strongly recommend Firefox"/>
+      <Options>
+        <RadioImageOption None="true"/>
+        <RadioImageOption>
+          <Text>Firefox</Text>
+          <Name>browser-firefox</Name>
+          <FileName>firefox</FileName>
+          <GradientTopColor>#FF3647</GradientTopColor>
+          <GradientBottomColor>#FFC742</GradientBottomColor>
+        </RadioImageOption>
+      </Options>
+    </RadioImagePage>
+    -->
+  </FeaturePages>
+
+  <!--
+    OPTIONAL: Text shown in the progress window during apply.
+    Keep it descriptive and human-readable.
+  -->
+  <ProgressText>Configuring privacy settings, removing bloatware, applying performance tweaks, and installing selected software.</ProgressText>
+
+  <!--
+    OPTIONAL: Git repository URL for update detection.
+    Release tags must match Version. Each release needs exactly one .apbx file.
+    Supported: GitHub, Gitea, GitLab.
+  -->
+  <Git>https://github.com/YourOrg/YourPlaybook</Git>
+
+  <!-- OPTIONAL: Website shown in verification dropdown (only if verified). -->
+  <!-- <Website>https://yoursite.example.com</Website> -->
+
+  <!-- OPTIONAL: Donate button in updates window. -->
+  <!-- <DonateLink>https://ko-fi.com/yourhandle</DonateLink> -->
+
+  <!--
+    OPTIONAL: Custom install guide URL for the FreshInstall requirement.
+    Shown to the user if FreshInstall requirement is active.
+  -->
+  <!-- <InstallGuide>https://yoursite.example.com/install-guide</InstallGuide> -->
+
+  <!--
+    OPTIONAL: Password to set when converting Microsoft accounts to local.
+    Only used when the PasswordSet requirement is active.
+  -->
+  <!-- <PasswordReplace>YourSecurePassword</PasswordReplace> -->
+
+  <!--
+    OTHER-PAGE (iso.html): Enable ISO injection support.
+    Requires OOBE BulletPoints. See reconnaissance.md §9.
+  -->
+  <!-- <SupportsISO>true</SupportsISO> -->
+
+  <!--
+    CONDITIONAL: Required when SupportsISO is true.
+    BulletPoints shown on the OOBE summary page.
+    Available icons: Lock, Privacy, Rocket (only these three).
+    Description and Title lengths must roughly match the examples.
+  -->
+  <!--
+  <OOBE>
+    <BulletPoints>
+      <BulletPoint Icon="Lock" Title="Reliable"
+        Description="Through thorough testing, we've ensured a reliable deployment process."/>
+      <BulletPoint Icon="Privacy" Title="Enhanced privacy"
+        Description="The process enhances your privacy using various methods."/>
+      <BulletPoint Icon="Rocket" Title="Optimized"
+        Description="Performance optimizations and refined UI changes implemented."/>
+    </BulletPoints>
+    <Internet>Request</Internet>
+  </OOBE>
+  -->
+
+  <!--
+    CONDITIONAL: ISO injection options. Used alongside SupportsISO.
+  -->
+  <!--
+  <ISO>
+    <DisableBitLocker>true</DisableBitLocker>
+    <DisableHardwareRequirements>true</DisableHardwareRequirements>
+  </ISO>
+  -->
+
+  <!--
+    CONDITIONAL: Software packages shown in OOBE for user visibility.
+    Name must match a !software or !download action's 'package' property.
+    Icon must be a file inside the Images/ folder in the playbook root.
+  -->
+  <!--
+  <Software>
+    <Package Option="browser-firefox">
+      <Name>firefox</Name>
+      <Title>Firefox</Title>
+      <Description>Fully featured web browser, configured for optimal usability and privacy.</Description>
+      <Icon>firefox.png</Icon>
+    </Package>
+  </Software>
+  -->
+
+  <!--
+    OTHER-PAGE (upgrades.html): previous version this release can upgrade from.
+    Formats: "1.0", "1.0.0-1.5.0", "any", or multiple <string> elements.
+  -->
+  <!-- <UpgradableFrom>any</UpgradableFrom> -->
+
+  <!--
+    OTHER-PAGE (upgrades.html): False blocks upgrades from unlisted versions.
+  -->
+  <!-- <AllowUnsupportedUpgrades>False</AllowUnsupportedUpgrades> -->
+
+  <!--
+    OPTIONAL: Product code for AME verification.
+    Integer assigned by AME team. Contact @styris_ame or @actrons on Discord/Telegram.
+  -->
+  <!-- <ProductCode>12345</ProductCode> -->
+
+  <!--
+    OPTIONAL: Use kernel driver for elevated privileges.
+    Not needed for most playbooks.
+  -->
+  <!-- <UseKernelDriver>true</UseKernelDriver> -->
+
+</Playbook>

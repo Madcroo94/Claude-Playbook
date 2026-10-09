@@ -1,0 +1,10 @@
+title: Main
+# Phase 2 skeleton: only writes a status. Canonical tag is !status
+# (WriteStatus.html); !writeStatus also works but we standardize on !status. Add !task calls here as domain
+# task files gain real actions in Phase 4.
+actions:
+  - !status: {status: 'Playbook skeleton running'}
+  # - !status: {status: 'Configuring registry'}
+  # - !task: {path: 'Tasks/registry.yml'}
+  # - !status: {status: 'Removing APPX packages'}
+  # - !task: {path: 'Tasks/appx.yml'}

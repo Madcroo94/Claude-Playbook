@@ -1,0 +1,7 @@
+title: APPX Removal
+# Skeleton APPX task — replace with real !appx actions in Phase 4.
+# Example:
+# actions:
+#   - !appx: {name: '*disney*', type: family}
+#   - !appx: {operation: clearCache, name: '*Client.CBS*'}
+actions: []
