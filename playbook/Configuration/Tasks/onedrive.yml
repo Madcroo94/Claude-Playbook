@@ -1,0 +1,14 @@
+title: OneDrive
+description: >-
+  Uninstalls OneDrive unless a profile is signed in or has files in its
+  OneDrive folder. New user accounts no longer get OneDrive installed.
+option: 'remove-onedrive'
+actions:
+  - !status: {status: 'Removing OneDrive'}
+  - !powerShell:
+    command: '& $env:windir\ClaudePlaybook\Internal\OneDrive.ps1 -Action Remove -Silent; exit $LASTEXITCODE'
+    runas: currentUserElevated
+    wait: true
+    handleExitCodes: {1: log}
+  # The Default profile runs OneDriveSetup at a new user's first sign-in.
+  - !registryValue: {path: 'HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run', value: 'OneDriveSetup', operation: delete, scope: defaultUsers}

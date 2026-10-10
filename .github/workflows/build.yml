@@ -18,6 +18,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install pyyaml py7zr
+      - name: Undo manifest up to date
+        run: python3 tools/manifest.py --check
       - name: Validate
         run: python3 tools/validate.py
       - name: Package

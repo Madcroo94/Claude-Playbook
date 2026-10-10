@@ -1,0 +1,40 @@
+title: Xbox
+description: >-
+  Removes the Xbox apps, Game Bar and the Xbox Live services. Battle.net games
+  such as Diablo 4 do not use them. Xbox controllers keep working
+  (XboxGipSvc and the controller drivers are left alone).
+actions:
+  - !status: {status: 'Removing Xbox apps and Game Bar', option: 'remove-xbox'}
+  - !appx: {name: '*Microsoft.GamingApp*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !appx: {name: '*Microsoft.XboxApp*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !appx: {name: '*Microsoft.XboxGamingOverlay*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !appx: {name: '*Microsoft.XboxGameOverlay*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !appx: {name: '*Microsoft.XboxSpeechToTextOverlay*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !appx: {name: '*Microsoft.XboxIdentityProvider*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !appx: {name: '*Microsoft.Xbox.TCUI*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !appx: {name: '*Microsoft.Edge.GameAssist*', type: family, option: 'remove-xbox', errorAction: Log}
+  - !service: {name: 'XblAuthManager', operation: change, startup: 4, option: 'remove-xbox', errorAction: Log}
+  - !service: {name: 'XblGameSave', operation: change, startup: 4, option: 'remove-xbox', errorAction: Log}
+  - !service: {name: 'XboxNetApiSvc', operation: change, startup: 4, option: 'remove-xbox', errorAction: Log}
+  - !scheduledTask: {path: '\Microsoft\XblGameSave\XblGameSaveTask', operation: disable, option: 'remove-xbox', errorAction: Ignore}
+  # Game DVR background recording off.
+  - !registryValue: {path: 'HKCU\System\GameConfigStore', value: 'GameDVR_Enabled', type: REG_DWORD, data: '0', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\GameDVR', value: 'AppCaptureEnabled', type: REG_DWORD, data: '0', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR', value: 'AllowGameDVR', type: REG_DWORD, data: '0', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\GameBar', value: 'UseNexusForGameBarEnabled', type: REG_DWORD, data: '0', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\GameBar', value: 'ShowStartupPanel', type: REG_DWORD, data: '0', option: 'remove-xbox'}
+  # Without Game Bar, games and the Xbox controller button open these links and
+  # Windows asks for an app to open them. Point them at a program that exits.
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebar', value: '', type: REG_SZ, data: 'URL:ms-gamebar', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebar', value: 'URL Protocol', type: REG_SZ, data: '', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebar', value: 'NoOpenWith', type: REG_SZ, data: '', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebar\shell\open\command', value: '', type: REG_EXPAND_SZ, data: '%SystemRoot%\System32\systray.exe', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebarservices', value: '', type: REG_SZ, data: 'URL:ms-gamebarservices', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebarservices', value: 'URL Protocol', type: REG_SZ, data: '', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebarservices', value: 'NoOpenWith', type: REG_SZ, data: '', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamebarservices\shell\open\command', value: '', type: REG_EXPAND_SZ, data: '%SystemRoot%\System32\systray.exe', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamingoverlay', value: '', type: REG_SZ, data: 'URL:ms-gamingoverlay', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamingoverlay', value: 'URL Protocol', type: REG_SZ, data: '', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamingoverlay', value: 'NoOpenWith', type: REG_SZ, data: '', option: 'remove-xbox'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Classes\ms-gamingoverlay\shell\open\command', value: '', type: REG_EXPAND_SZ, data: '%SystemRoot%\System32\systray.exe', option: 'remove-xbox'}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Appx.ps1 -Action Deprovision -Group remove-xbox -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'remove-xbox'}

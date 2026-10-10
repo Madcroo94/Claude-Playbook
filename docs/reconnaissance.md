@@ -707,6 +707,20 @@ coverage is the Creating Playbooks next-steps list plus every page those pages
 link, plus File.html (discovered via prior catalog) and operator ISO/install
 pages.
 
+- **Feature page option limit (undocumented, seen 2026-10-10).** AME Wizard
+  refused v0.2.0 with "CheckboxPage with a TopLine and BottomLine must not have
+  more than 2 options". The pages docs give no limit. Shipped playbooks fit 4
+  options with no TopLine/BottomLine and 3 with one (ReviOS 26.04, AtlasOS), so
+  `validate.py` now allows 4 minus one per line on CheckboxPage and RadioPage.
+  The RadioPage limit is inferred, not seen.
+- **Name length limit (undocumented, seen 2026-10-10).** v0.2.1 failed with
+  "Playbook Name is too long" for `Claude Playbook` (15 characters), although
+  the docs' own example is `Example Playbook`. The real limit is unknown.
+  `validate.py` keeps Name, Username, Title, ShortDescription, Description,
+  Details, ProgressText and page texts within the longest ReviOS 26.04 and
+  AtlasOS ship (Name 7, Username 8, Title 15, ShortDescription 31, option
+  text 42, page Description 93).
+
 ---
 
 ## 16. Pages fetched this pass

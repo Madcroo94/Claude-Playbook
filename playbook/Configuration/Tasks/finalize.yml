@@ -1,0 +1,8 @@
+title: Finish
+description: Refreshes Start and Search so removed apps disappear, and adds the toolbox shortcuts.
+actions:
+  - !status: {status: 'Finishing up'}
+  - !appx: {operation: clearCache, name: '*Client.CBS*', errorAction: Ignore}
+  - !appx: {operation: clearCache, name: '*Windows.Search*', errorAction: Ignore}
+  - !appx: {operation: clearCache, name: '*StartMenuExperienceHost*', errorAction: Ignore}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Shortcut.ps1 -Silent', runas: currentUserElevated, wait: true, errorAction: Log}

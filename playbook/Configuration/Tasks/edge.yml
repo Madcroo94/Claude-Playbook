@@ -1,0 +1,14 @@
+title: Edge
+description: >-
+  Removes the Edge browser once another browser is installed. The WebView2
+  Runtime stays. Edge profiles are left on disk. "Install Edge" in the Apps
+  folder brings it back.
+option: 'remove-edge'
+actions:
+  - !status: {status: 'Removing Microsoft Edge'}
+  - !taskKill: {name: 'msedge', errorAction: Ignore}
+  - !powerShell:
+    command: '& $env:windir\ClaudePlaybook\Internal\Edge.ps1 -Action Remove -Silent; exit $LASTEXITCODE'
+    runas: currentUserElevated
+    wait: true
+    handleExitCodes: {1: log}

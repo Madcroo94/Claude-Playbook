@@ -1,0 +1,21 @@
+title: Defender
+description: >-
+  Only runs when "Turn Defender off" is chosen. Defender stays installed, so
+  choosing "Keep Defender on" in a later run turns it back on.
+option: 'defender-disable'
+actions:
+  - !status: {status: 'Turning off Microsoft Defender'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender', value: 'DisableAntiSpyware', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection', value: 'DisableRealtimeMonitoring', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet', value: 'SpynetReporting', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet', value: 'SubmitSamplesConsent', type: REG_DWORD, data: '2'}
+  # Start = 4 (disabled). Written as values so Restore can put the originals back.
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Services\WinDefend', value: 'Start', type: REG_DWORD, data: '4'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Services\WdNisSvc', value: 'Start', type: REG_DWORD, data: '4'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Services\WdNisDrv', value: 'Start', type: REG_DWORD, data: '4'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Services\WdFilter', value: 'Start', type: REG_DWORD, data: '4'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Services\WdBoot', value: 'Start', type: REG_DWORD, data: '4'}
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance', operation: disable, errorAction: Ignore}
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Cleanup', operation: disable, errorAction: Ignore}
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan', operation: disable, errorAction: Ignore}
+  - !scheduledTask: {path: '\Microsoft\Windows\Windows Defender\Windows Defender Verification', operation: disable, errorAction: Ignore}

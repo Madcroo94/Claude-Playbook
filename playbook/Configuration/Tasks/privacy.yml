@@ -1,0 +1,92 @@
+title: Privacy
+description: >-
+  Turns off telemetry, ads, suggestions and web search. Applied for every user
+  and for new accounts. Restore puts each value back.
+actions:
+  - !status: {status: 'Turning off telemetry and ads'}
+  # Diagnostic data at the lowest level Windows allows (Required on Home and Pro)
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection', value: 'AllowTelemetry', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection', value: 'AllowTelemetry', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection', value: 'AllowTelemetry', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection', value: 'DoNotShowFeedbackNotifications', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection', value: 'AllowDeviceNameInTelemetry', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\WMI\Autologger\AutoLogger-Diagtrack-Listener', value: 'Start', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\WMI\Autologger\SQMLogger', value: 'Start', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows NT\CurrentVersion\Software Protection Platform', value: 'NoGenTicket', type: REG_DWORD, data: '1'}
+  # Customer Experience Improvement Program and app compatibility telemetry
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\SQMClient\Windows', value: 'CEIPEnable', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat', value: 'AITEnable', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat', value: 'DisableInventory', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\AppCompat', value: 'DisableUAR', type: REG_DWORD, data: '1'}
+  # Error reporting (crash dumps stay on disk in %LOCALAPPDATA%\CrashDumps when apps make them)
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting', value: 'Disabled', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting', value: 'Disabled', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting', value: 'DontSendAdditionalData', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\MRT', value: 'DontReportInfectionInformation', type: REG_DWORD, data: '1'}
+  # Advertising ID and tailored experiences
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo', value: 'Enabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo', value: 'DisabledByGroupPolicy', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Privacy', value: 'TailoredExperiencesWithDiagnosticDataEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Policies\Microsoft\Windows\CloudContent', value: 'DisableTailoredExperiencesWithDiagnosticData', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKCU\Control Panel\International\User Profile', value: 'HttpAcceptLanguageOptOut', type: REG_DWORD, data: '1'}
+  # Suggestions, tips and account nags in Start, Settings and on the lock screen
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced', value: 'Start_IrisRecommendations', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced', value: 'Start_AccountNotifications', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced', value: 'ShowSyncProviderNotifications', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement', value: 'ScoobeSystemSettingEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\SystemSettings\AccountNotifications', value: 'EnableAccountNotifications', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'ContentDeliveryAllowed', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'FeatureManagementEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'OemPreInstalledAppsEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'PreInstalledAppsEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'PreInstalledAppsEverEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SilentInstalledAppsEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SoftLandingEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SubscribedContentEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SubscribedContent-310093Enabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SubscribedContent-338388Enabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SubscribedContent-338389Enabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SubscribedContent-338393Enabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SubscribedContent-353694Enabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SubscribedContent-353696Enabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'SystemPaneSuggestionsEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager', value: 'RotatingLockScreenOverlayEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent', value: 'DisableCloudOptimizedContent', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent', value: 'DisableSoftLanding', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent', value: 'DisableWindowsConsumerFeatures', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer', value: 'AllowOnlineTips', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel', value: '{2cc5ca98-6485-489a-920e-b3e88a6ccce3}', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Siuf\Rules', value: 'NumberOfSIUFInPeriod', type: REG_DWORD, data: '0'}
+  # Activity history and settings sync
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\System', value: 'EnableActivityFeed', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\System', value: 'PublishUserActivities', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\System', value: 'UploadUserActivities', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync', value: 'DisableSettingSync', type: REG_DWORD, data: '2'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\SettingSync', value: 'DisableSettingSyncUserOverride', type: REG_DWORD, data: '1'}
+  # Web results and Bing in Windows search (local search keeps working)
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search', value: 'AllowCortana', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search', value: 'ConnectedSearchUseWeb', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search', value: 'DisableWebSearch', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Search', value: 'BingSearchEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Search', value: 'CortanaConsent', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Policies\Microsoft\Windows\Explorer', value: 'DisableSearchBoxSuggestions', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\SearchSettings', value: 'IsDynamicSearchBoxEnabled', type: REG_DWORD, data: '0'}
+  # Typing, inking and speech data
+  - !registryValue: {path: 'HKCU\Software\Microsoft\InputPersonalization', value: 'RestrictImplicitInkCollection', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\InputPersonalization', value: 'RestrictImplicitTextCollection', type: REG_DWORD, data: '1'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\InputPersonalization\TrainedDataStore', value: 'HarvestContacts', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Personalization\Settings', value: 'AcceptedPrivacyPolicy', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Input\Settings', value: 'InsightsEnabled', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Speech', value: 'AllowSpeechModelUpdate', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\OOBE', value: 'DisablePrivacyExperience', type: REG_DWORD, data: '1'}
+  # Widgets and the Chat icon
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Dsh', value: 'AllowNewsAndInterests', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds', value: 'EnableFeeds', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Chat', value: 'ChatIcon', type: REG_DWORD, data: '3'}
+  # Wi-Fi hotspot sharing and Remote Assistance
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting', value: 'value', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots', value: 'value', type: REG_DWORD, data: '0'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\Remote Assistance', value: 'fAllowToGetHelp', type: REG_DWORD, data: '0'}
+  # Telemetry programs that run even with the tasks above off
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\CompatTelRunner.exe', value: 'Debugger', type: REG_SZ, data: '%windir%\System32\taskkill.exe'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\DeviceCensus.exe', value: 'Debugger', type: REG_SZ, data: '%windir%\System32\taskkill.exe'}

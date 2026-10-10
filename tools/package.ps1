@@ -1,6 +1,7 @@
-# Package playbook\ into dist\<Name>-<Version>.apbx with 7-Zip (Windows).
+# Package playbook\ into dist\<Title>-<Version>.apbx with 7-Zip (Windows).
 # The archive holds the *contents* of the playbook folder, 7z format,
-# password 'malte'. Run tools\validate.py first if Python is installed.
+# password 'malte'. Run tools\manifest.py --check and tools\validate.py first
+# if Python is installed.
 param([string]$Playbook = "$PSScriptRoot\..\playbook")
 
 $ErrorActionPreference = 'Stop'
@@ -10,7 +11,7 @@ if (-not $sevenZip) { throw '7-Zip not found. Install it from https://7-zip.org/
 
 $Playbook = (Resolve-Path $Playbook).Path
 [xml]$conf = Get-Content (Join-Path $Playbook 'playbook.conf')
-$name = $conf.Playbook.Name.Trim() -replace ' ', '-'
+$name = $conf.Playbook.Title.Trim() -replace ' ', '-'
 $version = $conf.Playbook.Version.Trim()
 
 $dist = Join-Path $PSScriptRoot '..\dist'

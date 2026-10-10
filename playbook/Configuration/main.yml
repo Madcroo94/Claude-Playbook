@@ -1,10 +1,19 @@
 title: Main
-# Phase 2 skeleton: only writes a status. Canonical tag is !status
-# (WriteStatus.html); !writeStatus also works but we standardize on !status. Add !task calls here as domain
-# task files gain real actions in Phase 4.
+description: Runs the task files in order. Backup comes first; nothing is changed until it succeeds.
 actions:
-  - !status: {status: 'Playbook skeleton running'}
-  # - !status: {status: 'Configuring registry'}
-  # - !task: {path: 'Tasks/registry.yml'}
-  # - !status: {status: 'Removing APPX packages'}
-  # - !task: {path: 'Tasks/appx.yml'}
+  - !task: {path: 'Tasks/start.yml'}
+  - !task: {path: 'Tasks/converge.yml'}
+  - !task: {path: 'Tasks/browser.yml'}
+  - !task: {path: 'Tasks/appx.yml'}
+  - !task: {path: 'Tasks/xbox.yml'}
+  - !task: {path: 'Tasks/edge.yml'}
+  - !task: {path: 'Tasks/onedrive.yml'}
+  - !task: {path: 'Tasks/services.yml'}
+  - !task: {path: 'Tasks/scheduled-tasks.yml'}
+  - !task: {path: 'Tasks/privacy.yml'}
+  - !task: {path: 'Tasks/updates.yml'}
+  - !task: {path: 'Tasks/defender.yml'}
+  - !task: {path: 'Tasks/gaming.yml'}
+  - !task: {path: 'Tasks/developer.yml'}
+  - !task: {path: 'Tasks/interface.yml'}
+  - !task: {path: 'Tasks/finalize.yml'}

@@ -1,0 +1,15 @@
+title: Browser
+description: Installs the browser picked to replace Edge, before Edge is removed.
+actions:
+  - !status: {status: 'Installing Brave', option: 'browser-brave'}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Browser.ps1 -Name brave -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'browser-brave'}
+  # Brave's crypto, rewards and VPN extras off (Brave policy documentation).
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\BraveSoftware\Brave', value: 'BraveRewardsDisabled', type: REG_DWORD, data: '1', option: 'browser-brave'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\BraveSoftware\Brave', value: 'BraveWalletDisabled', type: REG_DWORD, data: '1', option: 'browser-brave'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\BraveSoftware\Brave', value: 'BraveVPNDisabled', type: REG_DWORD, data: '1', option: 'browser-brave'}
+
+  - !status: {status: 'Installing Firefox', option: 'browser-firefox'}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Browser.ps1 -Name firefox -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'browser-firefox'}
+
+  - !status: {status: 'Installing Google Chrome', option: 'browser-chrome'}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Browser.ps1 -Name chrome -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'browser-chrome'}
