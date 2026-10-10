@@ -37,6 +37,14 @@ CONF_DOCUMENTED = set(REQUIRED_CONF) | {
     "SupportsISO", "UpgradableFrom", "AllowUnsupportedUpgrades"}
 CONF_OBSERVED = {"Overhaul", "EstimatedMinutes"}  # Atlas, Privacy+, AME 10
 
+# AME Wizard rejects a playbook whose Name is too long ("Playbook Name is too
+# long" for a 15-character name, 2026-10-10) and documents no limits. Until a
+# VM proves more, every text stays within the longest that ReviOS 26.04 and
+# AtlasOS 0.5 ship.
+TEXT_LIMITS = {"Name": 7, "Username": 8, "Title": 15, "ShortDescription": 31,
+               "Description": 291, "Details": 125, "ProgressText": 162}
+PAGE_TEXT_LIMITS = {"Description": 93, "Option text": 42, "TopLine/BottomLine": 50}
+
 # requirements.html; plus two seen only in Privacy+ / AME 10.
 REQUIREMENTS_DOCUMENTED = {
     "Internet", "NoInternet", "Activation", "FreshInstall", "DefenderToggled",
@@ -190,6 +198,19 @@ def check_conf(root):
             warnings.append(f"playbook.conf: <{el.tag}> is undocumented (seen in shipped playbooks)")
         elif el.tag not in CONF_DOCUMENTED:
             errors.append(f"playbook.conf: unknown element <{el.tag}>")
+
+    for field, limit in TEXT_LIMITS.items():
+        text = (tree.findtext(field) or "").strip()
+        if len(text) > limit:
+            errors.append(f"playbook.conf: <{field}> is {len(text)} characters; keep it to {limit} (AME rejects long names)")
+    for page in tree.iterfind("FeaturePages/*"):
+        texts = [("Description", page.get("Description", ""))]
+        texts += [("Option text", (o.findtext("Text") or "").strip()) for o in page.iterfind("Options/*")]
+        texts += [("TopLine/BottomLine", l.get("Text", "")) for l in page if l.tag in ("TopLine", "BottomLine")]
+        for kind, text in texts:
+            if len(text) > PAGE_TEXT_LIMITS[kind]:
+                errors.append(f"playbook.conf: <{page.tag}> {kind} '{text}' is {len(text)} characters; "
+                              f"keep it to {PAGE_TEXT_LIMITS[kind]}")
 
     uid = (tree.findtext("UniqueId") or "").strip()
     try:

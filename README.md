@@ -3,7 +3,7 @@ My first request ever with the Claude API was to scourge the AtlasOS and cie adv
 
 ## Status
 
-Version 0.2.1: the first playbook that changes Windows. It has **not been run
+Version 0.2.2: the first playbook that changes Windows. It has **not been run
 in a VM yet**. Never apply it outside a virtual machine until it has.
 
 Windows 11 24H2 (26100) and 25H2 (26200). Built for gaming (tested target:

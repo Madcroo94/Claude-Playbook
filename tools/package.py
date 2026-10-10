@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package playbook/ into dist/<Name>-<Version>.apbx.
+"""Package playbook/ into dist/<Title>-<Version>.apbx.
 
 An .apbx is a 7z archive of the *contents* of the playbook folder (no wrapping
 folder), encrypted with the password 'malte' so browsers and antivirus do not
@@ -31,7 +31,7 @@ def main():
         sys.exit("validation failed; not packaging")
 
     conf = ET.parse(root / "playbook.conf").getroot()
-    name = conf.findtext("Name").strip().replace(" ", "-")
+    name = conf.findtext("Title").strip().replace(" ", "-")
     version = conf.findtext("Version").strip()
     out = repo / "dist" / f"{name}-{version}.apbx"
     out.parent.mkdir(exist_ok=True)
