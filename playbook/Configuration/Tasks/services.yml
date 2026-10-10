@@ -1,0 +1,16 @@
+title: Services
+description: Turns off telemetry and diagnostics services. Restore puts each start type back.
+actions:
+  - !status: {status: 'Turning off telemetry services'}
+  # Connected User Experiences and Telemetry
+  - !service: {name: 'DiagTrack', operation: change, startup: 4, errorAction: Log}
+  # Diagnostics Hub Standard Collector (Visual Studio profiling still works on demand when set back)
+  - !service: {name: 'diagnosticshub.standardcollector.service', operation: change, startup: 4, errorAction: Log}
+  # Windows Insider Service
+  - !service: {name: 'wisvc', operation: change, startup: 4, errorAction: Log}
+  # Retail Demo
+  - !service: {name: 'RetailDemo', operation: change, startup: 4, errorAction: Log}
+  # Distributed Link Tracking Client (tracks shortcut targets across network shares)
+  - !service: {name: 'TrkWks', operation: change, startup: 4, errorAction: Log}
+  # Program Compatibility Assistant
+  - !service: {name: 'PcaSvc', operation: change, startup: 4, errorAction: Log}

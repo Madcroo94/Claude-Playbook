@@ -1,0 +1,17 @@
+title: Windows Update
+description: >-
+  Windows Update stays on. Updates come from Microsoft only (no peer-to-peer
+  sharing). The options choose when updates install and whether drivers come
+  through Windows Update.
+actions:
+  - !status: {status: 'Configuring Windows Update'}
+  # Delivery Optimization: download from Microsoft over HTTP only, no peers.
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization', value: 'DODownloadMode', type: REG_DWORD, data: '0'}
+
+  # Notify before downloading and installing; never restart while signed in.
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', value: 'NoAutoUpdate', type: REG_DWORD, data: '0', option: 'updates-notify'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', value: 'AUOptions', type: REG_DWORD, data: '2', option: 'updates-notify'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', value: 'NoAutoRebootWithLoggedOnUsers', type: REG_DWORD, data: '1', option: 'updates-notify'}
+
+  # Keep the GPU driver you installed (NVIDIA Studio/Game Ready, CUDA).
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate', value: 'ExcludeWUDriversInQualityUpdate', type: REG_DWORD, data: '1', option: 'wu-no-drivers'}

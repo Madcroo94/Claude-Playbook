@@ -1,0 +1,34 @@
+title: Gaming and latency
+description: >-
+  Settings with a measurable effect on frame pacing and input. Timer, HPET,
+  network and CPU-mitigation tweaks are left out on purpose (see README).
+actions:
+  - !status: {status: 'Tuning for games'}
+  # Copy of Ultimate Performance with USB and PCIe power saving off (plugged in).
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\PowerPlan.ps1 -Action On -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'gaming-power-plan'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling', value: 'PowerThrottlingOff', type: REG_DWORD, data: '1', option: 'gaming-power-plan'}
+
+  # Longer, boosted time slices for the foreground app (0x26), and 10% of CPU
+  # reserved for background multimedia tasks instead of 20%.
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\PriorityControl', value: 'Win32PrioritySeparation', type: REG_DWORD, data: '38', option: 'gaming-latency'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile', value: 'SystemResponsiveness', type: REG_DWORD, data: '10', option: 'gaming-latency'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize', value: 'StartupDelayInMSec', type: REG_DWORD, data: '0', option: 'gaming-latency'}
+
+  # "Enhance pointer precision" off: 1:1 mouse movement.
+  - !registryValue: {path: 'HKCU\Control Panel\Mouse', value: 'MouseSpeed', type: REG_SZ, data: '0', option: 'gaming-mouse'}
+  - !registryValue: {path: 'HKCU\Control Panel\Mouse', value: 'MouseThreshold1', type: REG_SZ, data: '0', option: 'gaming-mouse'}
+  - !registryValue: {path: 'HKCU\Control Panel\Mouse', value: 'MouseThreshold2', type: REG_SZ, data: '0', option: 'gaming-mouse'}
+
+  # Sticky, Toggle and Filter Keys shortcuts off (the features stay available).
+  - !registryValue: {path: 'HKCU\Control Panel\Accessibility\StickyKeys', value: 'Flags', type: REG_SZ, data: '506', option: 'gaming-stickykeys'}
+  - !registryValue: {path: 'HKCU\Control Panel\Accessibility\ToggleKeys', value: 'Flags', type: REG_SZ, data: '58', option: 'gaming-stickykeys'}
+  - !registryValue: {path: 'HKCU\Control Panel\Accessibility\Keyboard Response', value: 'Flags', type: REG_SZ, data: '122', option: 'gaming-stickykeys'}
+
+  # Hibernation off removes hiberfil.sys. Fast Startup off gives a clean boot
+  # every time, which avoids stale driver state after GPU driver updates.
+  - !cmd: {command: 'powercfg /hibernate off', wait: true, errorAction: Log, option: 'disable-hibernation'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power', value: 'HiberbootEnabled', type: REG_DWORD, data: '0', option: 'disable-hibernation'}
+
+  # Memory Integrity (HVCI) off. Opt-in: it lowers protection against
+  # malicious drivers. Takes effect after a restart.
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity', value: 'Enabled', type: REG_DWORD, data: '0', option: 'gaming-memory-integrity'}

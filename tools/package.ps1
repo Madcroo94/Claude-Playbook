@@ -1,6 +1,7 @@
 # Package playbook\ into dist\<Name>-<Version>.apbx with 7-Zip (Windows).
 # The archive holds the *contents* of the playbook folder, 7z format,
-# password 'malte'. Run tools\validate.py first if Python is installed.
+# password 'malte'. Run tools\manifest.py --check and tools\validate.py first
+# if Python is installed.
 param([string]$Playbook = "$PSScriptRoot\..\playbook")
 
 $ErrorActionPreference = 'Stop'

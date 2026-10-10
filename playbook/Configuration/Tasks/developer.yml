@@ -1,0 +1,17 @@
+title: AI and developer work
+description: Settings that help Python, Node, CUDA and WSL tooling.
+actions:
+  - !status: {status: 'Setting up for AI and developer work'}
+  # Paths longer than 260 characters (deep node_modules and pip caches).
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem', value: 'LongPathsEnabled', type: REG_DWORD, data: '1', option: 'dev-long-paths'}
+
+  # Removes the App Installer aliases that open the Store when "python" is typed.
+  # Turn them back on in Settings > Apps > Advanced app settings > App execution aliases.
+  - !cmd: {command: 'del /f /q "%LOCALAPPDATA%\Microsoft\WindowsApps\python.exe" "%LOCALAPPDATA%\Microsoft\WindowsApps\python3.exe"', runas: currentUser, wait: true, errorAction: Log, option: 'dev-python-alias'}
+
+  # Machine-wide environment variables read by the dotnet CLI and PowerShell 7.
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment', value: 'DOTNET_CLI_TELEMETRY_OPTOUT', type: REG_SZ, data: '1', option: 'dev-telemetry-optout'}
+  - !registryValue: {path: 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment', value: 'POWERSHELL_TELEMETRY_OPTOUT', type: REG_SZ, data: '1', option: 'dev-telemetry-optout'}
+
+  # WSL and Virtual Machine Platform features (WSL 2, Docker, CUDA on WSL).
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Wsl.ps1 -Action Enable -Silent; exit $LASTEXITCODE', wait: true, handleExitCodes: {1: log}, option: 'dev-wsl'}

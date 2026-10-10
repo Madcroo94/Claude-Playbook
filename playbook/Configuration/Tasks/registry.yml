@@ -1,6 +1,0 @@
-title: Registry Edits
-# Skeleton registry task — replace with real registry actions in Phase 4.
-# Example:
-# actions:
-#   - !registryValue: {path: 'HKLM\SOFTWARE\Example', value: 'MyVal', type: REG_DWORD, data: '1'}
-actions: []

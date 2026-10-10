@@ -1,0 +1,3 @@
+# Windows batch files and the toolbox README must keep CRLF line endings.
+*.cmd text eol=crlf
+playbook/Executables/**/*.txt text eol=crlf

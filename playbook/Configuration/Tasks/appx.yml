@@ -1,7 +1,72 @@
-title: APPX Removal
-# Skeleton APPX task — replace with real !appx actions in Phase 4.
-# Example:
-# actions:
-#   - !appx: {name: '*disney*', type: family}
-#   - !appx: {operation: clearCache, name: '*Client.CBS*'}
-actions: []
+title: Apps
+description: >-
+  Removes preinstalled apps, Copilot and Phone Link. Removed apps are marked
+  as deprovisioned so feature updates do not bring them back; the Apps folder
+  in C:\Windows\ClaudePlaybook reverses that.
+actions:
+  # Kept on purpose: Store, Photos, Media Player, Calculator, Notepad, Paint,
+  # Terminal, Snipping Tool, App Installer (winget) and the WebView2 Runtime.
+  - !status: {status: 'Removing preinstalled apps', option: 'remove-bloat-apps'}
+  - !appx: {name: '*Microsoft.549981C3F5F10*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.BingNews*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.BingWeather*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.BingSearch*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Clipchamp.Clipchamp*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.GetHelp*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.Getstarted*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.Microsoft3DViewer*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.MicrosoftOfficeHub*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.MicrosoftSolitaireCollection*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.MicrosoftStickyNotes*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.Office.OneNote*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.People*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.PowerAutomateDesktop*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.SkypeApp*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.Todos*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.WindowsAlarms*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.WindowsCamera*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.WindowsFeedbackHub*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.WindowsMaps*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.WindowsSoundRecorder*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*microsoft.windowscommunicationsapps*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.ZuneVideo*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.MixedReality.Portal*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.OutlookForWindows*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*SpotifyAB.SpotifyMusic*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*MicrosoftCorporationII.MicrosoftFamily*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.Windows.DevHome*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*MSTeams*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*MicrosoftTeams*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Disney.37853FC22B2CE*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*Microsoft.MSPaint*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*MicrosoftCorporationII.QuickAssist*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  - !appx: {name: '*MicrosoftWindows.Client.WebExperience*', type: family, option: 'remove-bloat-apps', errorAction: Log}
+  # Stop Windows from installing Teams and the new Outlook later.
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications', value: 'ConfigureChatAutoInstall', type: REG_DWORD, data: '0', option: 'remove-bloat-apps'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe', value: 'BlockedOobeUpdaters', type: REG_SZ, data: '["MS_Outlook"]', option: 'remove-bloat-apps'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator\UScheduler\OutlookUpdate', value: 'workCompleted', type: REG_DWORD, data: '1', option: 'remove-bloat-apps'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator\UScheduler\DevHomeUpdate', value: 'workCompleted', type: REG_DWORD, data: '1', option: 'remove-bloat-apps'}
+  # Offline maps service and its tasks are only used by the Maps app.
+  - !service: {name: 'MapsBroker', operation: change, startup: 4, option: 'remove-bloat-apps', errorAction: Log}
+  - !scheduledTask: {path: '\Microsoft\Windows\Maps\MapsToastTask', operation: disable, option: 'remove-bloat-apps', errorAction: Ignore}
+  - !scheduledTask: {path: '\Microsoft\Windows\Maps\MapsUpdateTask', operation: disable, option: 'remove-bloat-apps', errorAction: Ignore}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Appx.ps1 -Action Deprovision -Group remove-bloat-apps -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'remove-bloat-apps'}
+
+  - !status: {status: 'Removing Copilot', option: 'remove-copilot'}
+  - !appx: {name: '*Microsoft.Copilot*', type: family, option: 'remove-copilot', errorAction: Log}
+  # Recall and Click to Do policies (Policy CSP WindowsAI). Local AI runtimes
+  # such as CUDA, DirectML and ONNX Runtime are not affected.
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot', value: 'TurnOffWindowsCopilot', type: REG_DWORD, data: '1', option: 'remove-copilot'}
+  - !registryValue: {path: 'HKCU\Software\Policies\Microsoft\Windows\WindowsCopilot', value: 'TurnOffWindowsCopilot', type: REG_DWORD, data: '1', option: 'remove-copilot'}
+  - !registryValue: {path: 'HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced', value: 'ShowCopilotButton', type: REG_DWORD, data: '0', option: 'remove-copilot'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsAI', value: 'AllowRecallEnablement', type: REG_DWORD, data: '0', option: 'remove-copilot'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsAI', value: 'DisableAIDataAnalysis', type: REG_DWORD, data: '1', option: 'remove-copilot'}
+  - !registryValue: {path: 'HKCU\Software\Policies\Microsoft\Windows\WindowsAI', value: 'DisableAIDataAnalysis', type: REG_DWORD, data: '1', option: 'remove-copilot'}
+  - !registryValue: {path: 'HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsAI', value: 'DisableClickToDo', type: REG_DWORD, data: '1', option: 'remove-copilot'}
+  - !registryValue: {path: 'HKCU\Software\Policies\Microsoft\Windows\WindowsAI', value: 'DisableClickToDo', type: REG_DWORD, data: '1', option: 'remove-copilot'}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Appx.ps1 -Action Deprovision -Group remove-copilot -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'remove-copilot'}
+
+  - !status: {status: 'Removing Phone Link', option: 'remove-phonelink'}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Appx.ps1 -Action Remove -Pattern Microsoft.YourPhone -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'remove-phonelink'}
+  - !appx: {name: '*MicrosoftWindows.CrossDevice*', type: family, option: 'remove-phonelink', errorAction: Log}
+  - !powerShell: {command: '& $env:windir\ClaudePlaybook\Internal\Appx.ps1 -Action Deprovision -Group remove-phonelink -Silent; exit $LASTEXITCODE', runas: currentUserElevated, wait: true, handleExitCodes: {1: log}, option: 'remove-phonelink'}
