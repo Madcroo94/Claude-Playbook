@@ -106,7 +106,7 @@ On Windows: `powershell -File tools\package.ps1`.
   (`meetrevision/playbook`) sources. Decide: target builds (23H2 22631, 24H2
   26100, 25H2 26200), Requirements, feature pages, ISO yes/no, and the stance on
   Windows Update, Defender, Store, Edge, OneDrive, Copilot/Recall, UCPD.
-- **Phase 4 — tweaks.** First cut done 2026-10-10 (v0.2.0): Win11 24H2/25H2,
+- **Phase 4 — tweaks.** First cut done 2026-10-10 (v0.2.0, page fix in v0.2.1): Win11 24H2/25H2,
   gaming + AI focus, Edge/Xbox/Copilot/OneDrive removal behind options,
   Defender and Windows Update kept by default, undo toolbox. Not VM-tested.
   Open decision: license (GPL-3.0 recommended; no Atlas code is copied, so it

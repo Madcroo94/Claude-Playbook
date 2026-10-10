@@ -707,6 +707,13 @@ coverage is the Creating Playbooks next-steps list plus every page those pages
 link, plus File.html (discovered via prior catalog) and operator ISO/install
 pages.
 
+- **Feature page option limit (undocumented, seen 2026-10-10).** AME Wizard
+  refused v0.2.0 with "CheckboxPage with a TopLine and BottomLine must not have
+  more than 2 options". The pages docs give no limit. Shipped playbooks fit 4
+  options with no TopLine/BottomLine and 3 with one (ReviOS 26.04, AtlasOS), so
+  `validate.py` now allows 4 minus one per line on CheckboxPage and RadioPage.
+  The RadioPage limit is inferred, not seen.
+
 ---
 
 ## 16. Pages fetched this pass

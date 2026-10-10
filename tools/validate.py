@@ -221,6 +221,17 @@ def check_conf(root):
     options = {n.text.strip() for n in tree.iterfind("FeaturePages/*/Options/*/Name")
                if n.text and n.text.strip()}
     for page in tree.iterfind("FeaturePages/*"):
+        # AME Wizard refuses to load "CheckboxPage with a TopLine and
+        # BottomLine must not have more than 2 options" (seen 2026-10-10).
+        # Shipped playbooks fit 4 options with no lines and 3 with one line
+        # (ReviOS 26.04, AtlasOS), so treat each line as taking one of 4 slots.
+        if page.tag in ("CheckboxPage", "RadioPage"):
+            lines = sum(page.find(t) is not None for t in ("TopLine", "BottomLine"))
+            n = len(list(page.iterfind("Options/*")))
+            if n > 4 - lines:
+                top = page.findtext("TopLine") or (page.find("TopLine").get("Text") if page.find("TopLine") is not None else page.get("Description", ""))
+                errors.append(f"playbook.conf: <{page.tag}> '{top}' has {n} options; "
+                              f"AME allows {4 - lines} with {lines} of TopLine/BottomLine")
         dep = page.get("DependsOn")
         if dep and dep not in options:
             warnings.append(f"playbook.conf: <{page.tag}> DependsOn '{dep}' is not an option on any page")
